@@ -8,7 +8,7 @@ import type { SourceConfig } from '../src/config.js';
 test('real Chromium reuses a DOM page; recovery starts a fresh context', async () => {
   let navigationCount = 0;
   const server = createServer((_request, response) => {
-    navigationCount++;
+    if (_request.url === '/prices') navigationCount++;
     response.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
     response.end(`<!doctype html><html><body>
       <span id="buy">۱۲٬۳۴۵ تومان</span>
