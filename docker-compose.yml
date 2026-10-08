@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: watcher
+      POSTGRES_USER: watcher
+      POSTGRES_PASSWORD: watcher_dev
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U watcher -d watcher"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - watcher_data:/var/lib/postgresql/data
+volumes:
+  watcher_data:
