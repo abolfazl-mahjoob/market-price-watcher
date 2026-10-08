@@ -1,0 +1,18 @@
+{
+  "sources": [
+    {
+      "code": "demo",
+      "url": "http://127.0.0.1:4000/prices",
+      "intervalMs": 5000,
+      "timeoutMs": 4000,
+      "allowLocalhost": true,
+      "instruments": [
+        {
+          "code": "gold-example",
+          "buySelector": "[data-price='buy']",
+          "sellSelector": "[data-price='sell']"
+        }
+      ]
+    }
+  ]
+}
