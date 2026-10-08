@@ -6,8 +6,8 @@ export function retryDelay(attempt: number, random = Math.random()): number {
     throw new RangeError('Invalid retry inputs');
   }
   // Exponential backoff with jitter, capped at 30 seconds.
-  return Math.min(30_000, 1000 * 2 ** Math.min(attempt - 1, 6)) +
-    Math.floor(random * 250);
+  return Math.min(30_000, 1000 * 2 ** Math.min(attempt - 1, 6) +
+    Math.floor(random * 250));
 }
 
 export async function delay(ms: number, signal: AbortSignal): Promise<void> {
