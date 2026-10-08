@@ -6,14 +6,19 @@ import { parsePrice } from './price.js';
 /** A shared Chromium process; contexts and pages remain isolated per source. */
 export class BrowserHost {
   private browser: Browser | null = null;
+  private launching: Promise<Browser> | null = null;
   async get(): Promise<Browser> {
-    if (!this.browser || !this.browser.isConnected()) {
-      this.browser = await chromium.launch({ headless: true });
+    if (this.browser?.isConnected()) return this.browser;
+    // Single-flight launch even if twenty source contexts start together.
+    if (!this.launching) {
+      this.launching = chromium.launch({ headless: true })
+        .then(browser => { this.browser = browser; return browser; })
+        .finally(() => { this.launching = null; });
     }
-    return this.browser;
+    return this.launching;
   }
   async close(): Promise<void> {
-    const browser = this.browser;
+    const browser = this.browser ?? await this.launching;
     this.browser = null;
     await browser?.close().catch(() => undefined);
   }
