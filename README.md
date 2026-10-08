@@ -63,3 +63,5 @@ trade-offs in [the architecture document](docs/architecture.md).
 
 The MIT license covers the new standalone code; rights to any
 independently owned source integrations remain separate.
+
+CI verifies only local synthetic fixtures and a disposable test database.
